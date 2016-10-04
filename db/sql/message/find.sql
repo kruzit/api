@@ -1,3 +1,4 @@
 SELECT *
 FROM message
-WHERE location = ${location}
+WHERE x = ${x} 
+    AND y = ${y}

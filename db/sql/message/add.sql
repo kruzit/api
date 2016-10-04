@@ -1,11 +1,13 @@
 INSERT INTO message (
-    location, 
+    x, 
+    y,
     text,
     post_by,
     post_date
 )
 VALUES (
-    ${location}, 
+    ${x},
+    ${y},
     ${text}, 
     ${post_by}, 
     ${post_date}
