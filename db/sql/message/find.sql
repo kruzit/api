@@ -1,4 +1,4 @@
 SELECT *
-FROM message
+FROM messages
 WHERE x = ${x} 
     AND y = ${y}

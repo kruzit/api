@@ -1,4 +1,4 @@
-INSERT INTO user (
+INSERT INTO users (
     device_uuid, 
     api_key
 )

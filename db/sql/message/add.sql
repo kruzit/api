@@ -1,16 +1,16 @@
-INSERT INTO message (
+INSERT INTO messages (
     x, 
     y,
-    text,
+    content,
     post_by,
     post_date
 )
 VALUES (
     ${x},
     ${y},
-    ${text}, 
+    ${content}, 
     ${post_by}, 
     ${post_date}
 )
 
-RETURNING location
+RETURNING x, y
