@@ -23,18 +23,16 @@ const auth = (req, res, next) => {
     const device_uuid = decoded.split(":")[0]
     const api_key = decoded.split(":")[1]
 
-    console.log({ device_uuid, api_key })
-
     if (!device_uuid) {
         return res.json(noCredentialsError)
     }
 
     // Check credentials in DB
-    db.one("SELECT 1 FROM users WHERE device_uuid = '" + device_uuid + "'")
-        .then((...args) => {
+    db.user.find({ device_uuid })
+        .then(() => {
         // If device_uuid already in DB
             // Compare API key with DB
-            db.one("SELECT 1 FROM users WHERE device_uuid = '" + device_uuid + "' AND api_key = '" + api_key + "'")
+            db.user.auth({ device_uuid, api_key })
                 .then(() => next())
                 .catch((err) => {
                 // If keys don't match return error
@@ -47,19 +45,15 @@ const auth = (req, res, next) => {
             const api_key = uuid.v1()
 
             // Save in DB
-            db.none("INSERT INTO users (device_uuid, api_key) VALUES (${device_uuid}, ${api_key})", { device_uuid, api_key })
-                .then(() => {
+            db.user.add({ device_uuid, api_key })
+                .then((data) => {
                     // Return API key
                     return res.json({
                         success: true,
-                        data: [{
-                            "device_uuid": device_uuid,
-                            "api_key": api_key
-                        }]
+                        data
                     })
                 })
                 .catch((err) => {
-                    console.log(err)
                     next(err)
                 })
         })
